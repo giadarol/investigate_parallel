@@ -7,3 +7,6 @@ It seems that oython code cannot be executed in a prange:
 https://ipython-books.github.io/57-releasing-the-gil-to-take-advantage-of-multi-core-processors-with-cython-and-openmp/
 
 
+some extra info
+
+https://cython.readthedocs.io/en/latest/src/userguide/numpy_tutorial.html
