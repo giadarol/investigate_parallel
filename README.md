@@ -1,14 +1,16 @@
 # investigate_parallel
 
+## Dask
+
+Dask could be an interesing option: https://docs.dask.org/en/latest/
+
 ## Context manager in pyhedtail
 
 An (obsolete) example can be found here:
 
 https://github.com/PyCOMPLETE/PyHEADTAIL-playground/blob/master/howto_notebooks/PyHEADTAIL_on_GPU_Tutorial.ipynb
 
-One can get an idea of how it works directly from the source of the context manager:
-
-https://github.com/PyCOMPLETE/PyHEADTAIL/blob/58028e2ec4c304f9b698de06926376e4793c0669/PyHEADTAIL/general/contextmanager.py#L142
+One can get an idea of how it works directly from the [source of the context manager][https://github.com/PyCOMPLETE/PyHEADTAIL/blob/58028e2ec4c304f9b698de06926376e4793c0669/PyHEADTAIL/general/contextmanager.py#L142]
 
 ## nogil in cython
 
