@@ -4,6 +4,8 @@
 
 Dask could be an interesing option: https://docs.dask.org/en/latest/
 
+Some interesting info: https://docs.dask.org/en/latest/delayed-best-practices.html
+
 ## Context manager in pyhedtail
 
 An (obsolete) example can be found here:
