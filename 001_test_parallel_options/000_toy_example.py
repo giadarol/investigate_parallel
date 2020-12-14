@@ -56,6 +56,7 @@ def rotate_particles_vect(x, xp):
     
     
 import myfunc as rc
+import myfuncpara as rcp
 import rotate_fortran as rf
 
 N_part = 1000000
@@ -76,6 +77,10 @@ def doit_cython():
 def doit_cython_opt():
     x, xp = generate_particles(N_part)
     rc.rotate_particles_opt(x, xp)
+
+def doit_cython_para():
+    x, xp = generate_particles(N_part)
+    rcp.rotate_particles_par(x, xp)
 
 def doit_fortran():
     x, xp = generate_particles(N_part)
@@ -102,6 +107,10 @@ print('Exec. time cython: %.2f s'%exectime)
 import timeit
 exectime = timeit.timeit(stmt = 'doit_cython_opt()',  setup = 'from __main__ import doit_cython_opt', number=2)
 print('Exec. time cython opt: %.2f s'%exectime)
+
+import timeit
+exectime = timeit.timeit(stmt = 'doit_cython_para()',  setup = 'from __main__ import doit_cython_para', number=2)
+print('Exec. time cython para: %.2f s'%exectime)
 
 import timeit
 exectime = timeit.timeit(stmt = 'doit_fortran()',  setup = 'from __main__ import doit_fortran', number=2)
