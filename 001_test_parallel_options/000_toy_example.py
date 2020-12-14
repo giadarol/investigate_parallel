@@ -42,8 +42,25 @@ def rotate_numba(x, xp):
         x[ii] = x_new
         xp[ii] = xp_new
 
+@numba.njit(parallel=True)
+def rotate_numba_para(x, xp):
+
+    N_part = len(x)
+
+    for ii in numba.prange(N_part):
+
+        theta = np.pi/3. + 0.01*x[ii]
+        costh = cos(theta)
+        sinth = sin(theta)
+
+        x_new = x[ii]*costh + xp[ii]*sinth
+        xp_new = -xp[ii]*sinth + x[ii]*costh
+
+        x[ii] = x_new
+        xp[ii] = xp_new
+
 def rotate_particles_vect(x, xp):
-    
+
     theta = np.pi/3. + 0.01*x
     costh = np.cos(theta)
     sinth = np.sin(theta)
@@ -54,6 +71,18 @@ def rotate_particles_vect(x, xp):
     x[:] = x_new
     xp[:] = xp_new
     
+@numba.njit(parallel=True)
+def rotate_particles_vect_numba(x, xp):
+
+    theta = np.pi/3. + 0.01*x
+    costh = np.cos(theta)
+    sinth = np.sin(theta)
+    
+    x_new = x*costh + xp*sinth
+    xp_new = -xp*sinth + x*costh
+
+    x[:] = x_new
+    xp[:] = xp_new
     
 import myfunc as rc
 import myfuncpara as rcp
@@ -68,6 +97,9 @@ def doit():
 def doit_vect():
     rotate_particles_vect(x, xp)
     
+def doit_vect_numba():
+    rotate_particles_vect_numba(x, xp)
+
 def doit_cython():
     rc.rotate_particles(x, xp)
     
@@ -83,6 +115,8 @@ def doit_fortran():
 def doit_numba():
     rotate_numba(x, xp)
 
+def doit_numba_para():
+    rotate_numba_para(x, xp)
 
 
 import timeit
@@ -107,6 +141,12 @@ print('Exec. fortran: %.2f s'%exectime)
 
 exectime = timeit.timeit(stmt = 'doit_numba()',  setup = 'from __main__ import doit_numba', number=2)
 print('Exec. numba: %.2f s'%exectime)
+
+exectime = timeit.timeit(stmt = 'doit_numba_para()',  setup = 'from __main__ import doit_numba_para', number=2)
+print('Exec. numba para: %.2f s'%exectime)
+
+exectime = timeit.timeit(stmt = 'doit_vect_numba()',  setup = 'from __main__ import doit_vect_numba', number=2)
+print('Exec. numba vect para: %.2f s'%exectime)
 
 # to profile:
 # kernprof --view -l 000_profile_example.py
