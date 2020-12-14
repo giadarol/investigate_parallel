@@ -13,8 +13,8 @@ def rotate_particles_par(double[:] x, double[:] xp):
 	cdef double x_new, xp_new
 	cdef double cpi = pi
 
-	#for ii in prange(N_part, nogil=True):
-	for ii in range(N_part):
+	for ii in prange(N_part, nogil=True, num_threads=4):
+	#for ii in range(N_part):
 		
 		theta = cpi/3. + 0.01*x[ii]
 		costh = cos(theta)

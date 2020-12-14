@@ -1,5 +1,8 @@
 
-from math import sin, cos, pi
+#from math import sin, cos, pi
+cdef extern from "math.h" nogil:
+		double sin(double x)
+		double cos(double x)
 from math import pi
 
 def rotate_particles(x, xp):
@@ -20,12 +23,15 @@ def rotate_particles(x, xp):
 
 def rotate_particles_opt(double[:] x, double[:] xp):
 
-	N_part = len(x)
+	cdef int N_part = len(x)
+	cdef int ii
 	cdef double theta, sinth, costh
+	cdef double x_new, xp_new
+	cdef double cpi = pi
 
 	for ii in range(N_part):
 		
-		theta = pi/3. + 0.01*x[ii]
+		theta = cpi/3. + 0.01*x[ii]
 		costh = cos(theta)
 		sinth = sin(theta)
 		
