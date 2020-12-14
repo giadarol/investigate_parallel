@@ -88,68 +88,30 @@ import myfunc as rc
 import myfuncpara as rcp
 import rotate_fortran as rf
 
+tests = [
+    {'name': 'python_naive', 'function': rotate_particles},
+    {'name': 'python_np_vect', 'function': rotate_particles_vect},
+    {'name': 'cython_naive', 'function': rc.rotate_particles},
+    {'name': 'cython_optimized', 'function': rc.rotate_particles_opt},
+    {'name': 'fortran_f2py', 'function': rf.rotate_fortran},
+    {'name': 'numba_ser_loop', 'function': rotate_numba},
+    {'name': 'cython_paral', 'function': rcp.rotate_particles_par},
+    {'name': 'numba_par_loop', 'function': rotate_numba_para},
+    {'name': 'numba_par_vect', 'function': rotate_particles_vect_numba},
+    ]
+
 N_part = 10000000
 x, xp = generate_particles(N_part)
-#@profile
-def doit():
-    rotate_particles(x, xp)
-
-def doit_vect():
-    rotate_particles_vect(x, xp)
-    
-def doit_vect_numba():
-    rotate_particles_vect_numba(x, xp)
-
-def doit_cython():
-    rc.rotate_particles(x, xp)
-    
-def doit_cython_opt():
-    rc.rotate_particles_opt(x, xp)
-
-def doit_cython_para():
-    rcp.rotate_particles_par(x, xp)
-
-def doit_fortran():
-    rf.rotate_fortran(x, xp)
-
-def doit_numba():
-    rotate_numba(x, xp)
-
-def doit_numba_para():
-    rotate_numba_para(x, xp)
-
-
 import timeit
 
-#exectime = timeit.timeit(stmt = 'doit()',  setup = 'from __main__ import doit', number=2)
-#print('Exec. time: %.2f s'%exectime)
-#
-exectime = timeit.timeit(stmt = 'doit_vect()',  setup = 'from __main__ import doit_vect', number=2)
-print('Exec. time vect: %.2f s'%exectime)
+for tt in tests:
+    name = tt['name']
+    fun = tt['function']
+    def thistest():
+        fun(x,xp)
+    exectime = timeit.timeit(
+            stmt = 'thistest()',
+            setup = 'from __main__ import thistest', number=2)
 
-#exectime = timeit.timeit(stmt = 'doit_cython()',  setup = 'from __main__ import doit_cython', number=2)
-#print('Exec. time cython: %.2f s'%exectime)
-
-exectime = timeit.timeit(stmt = 'doit_cython_opt()',  setup = 'from __main__ import doit_cython_opt', number=2)
-print('Exec. time cython opt: %.2f s'%exectime)
-
-exectime = timeit.timeit(stmt = 'doit_cython_para()',  setup = 'from __main__ import doit_cython_para', number=2)
-print('Exec. time cython para: %.2f s'%exectime)
-
-exectime = timeit.timeit(stmt = 'doit_fortran()',  setup = 'from __main__ import doit_fortran', number=2)
-print('Exec. fortran: %.2f s'%exectime)
-
-exectime = timeit.timeit(stmt = 'doit_numba()',  setup = 'from __main__ import doit_numba', number=2)
-print('Exec. numba: %.2f s'%exectime)
-
-exectime = timeit.timeit(stmt = 'doit_numba_para()',  setup = 'from __main__ import doit_numba_para', number=2)
-print('Exec. numba para: %.2f s'%exectime)
-
-exectime = timeit.timeit(stmt = 'doit_vect_numba()',  setup = 'from __main__ import doit_vect_numba', number=2)
-print('Exec. numba vect para: %.2f s'%exectime)
-
-# to profile:
-# kernprof --view -l 000_profile_example.py
-
-
+    print(f'Exec. time {name}:\t {exectime:.2f} s')
 
