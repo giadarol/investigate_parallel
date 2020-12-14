@@ -1,4 +1,0 @@
-#!/bin/bash
-f2py -m rotate_fortran -c rotation.f
-
-cythonize -a -i myfunc.pyx

@@ -59,64 +59,52 @@ import myfunc as rc
 import myfuncpara as rcp
 import rotate_fortran as rf
 
-N_part = 1000000
-
+N_part = 10000000
+x, xp = generate_particles(N_part)
 #@profile
 def doit():
-    x, xp = generate_particles(N_part)
     rotate_particles(x, xp)
 
 def doit_vect():
-    x, xp = generate_particles(N_part)
     rotate_particles_vect(x, xp)
     
 def doit_cython():
-    x, xp = generate_particles(N_part)
     rc.rotate_particles(x, xp)
     
 def doit_cython_opt():
-    x, xp = generate_particles(N_part)
     rc.rotate_particles_opt(x, xp)
 
 def doit_cython_para():
-    x, xp = generate_particles(N_part)
     rcp.rotate_particles_par(x, xp)
 
 def doit_fortran():
-    x, xp = generate_particles(N_part)
     rf.rotate_fortran(x, xp)
 
 def doit_numba():
-    x, xp = generate_particles(N_part)
     rotate_numba(x, xp)
 
-doit()
 
 
 import timeit
-exectime = timeit.timeit(stmt = 'doit()',  setup = 'from __main__ import doit', number=2)
-print('Exec. time: %.2f s'%exectime)
 
+#exectime = timeit.timeit(stmt = 'doit()',  setup = 'from __main__ import doit', number=2)
+#print('Exec. time: %.2f s'%exectime)
+#
 exectime = timeit.timeit(stmt = 'doit_vect()',  setup = 'from __main__ import doit_vect', number=2)
 print('Exec. time vect: %.2f s'%exectime)
 
-import timeit
-exectime = timeit.timeit(stmt = 'doit_cython()',  setup = 'from __main__ import doit_cython', number=2)
-print('Exec. time cython: %.2f s'%exectime)
+#exectime = timeit.timeit(stmt = 'doit_cython()',  setup = 'from __main__ import doit_cython', number=2)
+#print('Exec. time cython: %.2f s'%exectime)
 
-import timeit
 exectime = timeit.timeit(stmt = 'doit_cython_opt()',  setup = 'from __main__ import doit_cython_opt', number=2)
 print('Exec. time cython opt: %.2f s'%exectime)
 
-import timeit
 exectime = timeit.timeit(stmt = 'doit_cython_para()',  setup = 'from __main__ import doit_cython_para', number=2)
 print('Exec. time cython para: %.2f s'%exectime)
 
-import timeit
 exectime = timeit.timeit(stmt = 'doit_fortran()',  setup = 'from __main__ import doit_fortran', number=2)
 print('Exec. fortran: %.2f s'%exectime)
 
-import timeit
 exectime = timeit.timeit(stmt = 'doit_numba()',  setup = 'from __main__ import doit_numba', number=2)
 print('Exec. numba: %.2f s'%exectime)
 
