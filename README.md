@@ -14,6 +14,10 @@ https://github.com/PyCOMPLETE/PyHEADTAIL-playground/blob/master/howto_notebooks/
 
 One can get an idea of how it works directly from the [source of the context manager](https://github.com/PyCOMPLETE/PyHEADTAIL/blob/58028e2ec4c304f9b698de06926376e4793c0669/PyHEADTAIL/general/contextmanager.py#L142)
 
+## numba
+
+https://numba.pydata.org/numba-doc/dev/user/5minguide.html
+
 ## nogil in cython
 
 **Does not seem to be an option**
