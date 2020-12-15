@@ -102,8 +102,14 @@ tests = [
 
 N_part = 10000000
 x, xp = generate_particles(N_part)
-import timeit
 
+# Run numba ones to compile
+rotate_numba(x, xp)
+rotate_numba_para(x, xp)
+rotate_particles_vect_numba(x, xp)
+
+
+import timeit
 for tt in tests:
     name = tt['name']
     fun = tt['function']
